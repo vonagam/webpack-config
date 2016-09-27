@@ -7,14 +7,14 @@ var path = require( 'path' );
 
 var applyProductionConfig = function ( config, loaders, options ) {
 
-  config.output = options.production.output;
+  config.output = options.get( 'production.output' );
 
 
   if ( _.some( loaders, { type: 'style' } ) ) {
 
     var ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 
-    config.plugins.push( new ExtractTextPlugin( options.production.plugins.css ) );
+    config.plugins.push( new ExtractTextPlugin( options.get( 'production.plugins.css' ) ) );
 
     _.each( loaders, function ( loader ) {
 

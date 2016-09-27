@@ -23,7 +23,7 @@ var applyDevelopmentConfig = function ( config, loaders, options ) {
   } );
 
 
-  config.output.path = options.development.output.path;
+  config.output.path = options.get( 'development.output.path' );
 
   config.output.filename = '[name].js';
 

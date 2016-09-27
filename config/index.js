@@ -37,15 +37,17 @@ var createConfig = function ( options ) {
 
   var loaders = {};
 
+  options = _( options );
 
-  _.each( options.module.loaders, function ( loader, key ) {
+
+  _.each( options.get( 'module.loaders' ), function ( loader, key ) {
 
     loaders[ key ] = _.assign( {}, standartLoaders[ key ], loader );
 
   } );
 
 
-  config.entry = options.entry;
+  config.entry = options.get( 'entry' );
 
 
   config.output = {};
@@ -53,38 +55,38 @@ var createConfig = function ( options ) {
 
   config.plugins = [];
 
-  if ( options.plugins.html ) {
+  if ( options.get( 'plugins.html' ) ) {
 
     var HtmlPlugin = require( 'html-webpack-plugin' );
 
-    _.each( options.plugins.html, function ( html ) {
+    _.each( options.get( 'plugins.html' ), function ( html ) {
 
       config.plugins.push( new HtmlPlugin( html ) );
 
     } );
 
-    if ( options.plugins.typograf ) {
+    if ( options.get( 'plugins.typograf' ) ) {
 
       var TypografPlugin = require( '../plugins/typograf-webpack-plugin' );
 
-      config.plugins.push( new TypografPlugin( options.plugins.typograf ) );
+      config.plugins.push( new TypografPlugin( options.get( 'plugins.typograf' ) ) );
 
     }
 
   }
 
-  if ( options.plugins.sprite ) {
+  if ( options.get( 'plugins.sprite' ) ) {
 
     var SpritesmithPlugin = require( 'webpack-spritesmith' );
 
-    config.plugins.push( new SpritesmithPlugin( options.plugins.sprite ) );
+    config.plugins.push( new SpritesmithPlugin( options.get( 'plugins.sprite' ) ) );
 
   }
 
 
   config.resolve = {};
 
-  config.resolve.root = options.resolve.root;
+  config.resolve.root = options.get( 'resolve.root' );
 
   config.resolve.extensions = [ '' ];
 
@@ -118,24 +120,24 @@ var createConfig = function ( options ) {
 
   }
 
-  if ( options.module.styling ) {
+  if ( options.get( 'module.styling' ) ) {
 
     _.each( loaders, function ( loader ) {
 
-      if ( loader.type == 'script' ) loader.loaders.push( 'neighbor?' + options.module.styling );
+      if ( loader.type == 'script' ) loader.loaders.push( 'neighbor?' + options.get( 'module.styling' ) );
 
     } );
 
   }
 
 
-  if ( options.environment == 'development' ) {
+  if ( options.get( 'environment' ) == 'development' ) {
 
     applyDevelopmentConfig( config, loaders, options );
 
   }
 
-  if ( options.environment == 'production' ) {
+  if ( options.get( 'environment' ) == 'production' ) {
 
     applyProductionConfig( config, loaders, options );
 
