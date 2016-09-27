@@ -27,7 +27,7 @@ var applyDevelopmentConfig = function ( config, loaders, options ) {
 
   config.output.filename = '[name].js';
 
-  config.output.publicPath = "http://localhost:#{ port }/";
+  config.output.publicPath = 'http://localhost:' + port + '/';
 
 
   config.plugins.unshift( new webpack.NoErrorsPlugin() );
