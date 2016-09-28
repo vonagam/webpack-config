@@ -47,7 +47,12 @@ var applyProductionConfig = function ( config, loaders, options ) {
 
   config.plugins.push( new webpack.DefinePlugin( { 'process.env.NODE_ENV': '"production"' } ) );
 
-  config.plugins.push( new webpack.optimize.UglifyJsPlugin( { compress: { warnings: false } } ) );
+
+  if ( options.get( 'production.plugins.uglify' ) ) {
+
+    config.plugins.push( new webpack.optimize.UglifyJsPlugin( { compress: { warnings: false } } ) );
+
+  }
 
 
   if ( options.get( 'production.plugins.assets' ) ) {
