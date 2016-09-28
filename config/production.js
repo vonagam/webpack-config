@@ -7,7 +7,21 @@ var path = require( 'path' );
 
 var applyProductionConfig = function ( config, loaders, options ) {
 
-  config.output = options.get( 'production.output' );
+  config.output.path = options.get( 'production.output.path' );
+
+  config.output.filename = options.get( 'production.output.filename' );
+
+  config.output.publicPath = options.get( 'production.output.publicPath' );
+
+  if ( options.get( 'production.output.library' ) ) {
+
+    config.output.library = options.get( 'production.output.library' );
+
+    config.output.libraryTarget = 'umd';
+
+    config.output.umdNamedDefine = true;
+
+  }
 
 
   if ( _.some( loaders, { type: 'style' } ) ) {
