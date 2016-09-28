@@ -50,11 +50,11 @@ var applyProductionConfig = function ( config, loaders, options ) {
   config.plugins.push( new webpack.optimize.UglifyJsPlugin( { compress: { warnings: false } } ) );
 
 
-  if ( options.get( 'development.plugins.assets' ) ) {
+  if ( options.get( 'production.plugins.assets' ) ) {
 
     var AssetsPlugin = require( 'assets-webpack-plugin' );
 
-    config.plugins.push( new AssetsPlugin( options.get( 'development.plugins.assets' ) ) );
+    config.plugins.push( new AssetsPlugin( options.get( 'production.plugins.assets' ) ) );
 
   }
 
