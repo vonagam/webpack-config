@@ -3,9 +3,12 @@ var _ = require( 'lodash' );
 var path = require( 'path' );
 
 
+var Options = require( './options' );
+
+
 var createConfig = function ( options ) {
 
-  var options = _( options );
+  var options = new Options( options );
 
   var config = {};
 

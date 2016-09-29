@@ -8,17 +8,15 @@ module.exports = function ( config, options ) {
   if ( environment != 'production' ) return;
 
 
-  var value = options.get( 'production.plugins.assets' );
-
-  if ( ! value ) return;
-
-  if ( value == true ) value = {
+  var value = options.get( 'production.plugins.assets', false, {
 
     path: config.output.path,
 
     filename: 'manifest.json',
 
-  };
+  } );
+
+  if ( ! value ) return;
 
 
   var AssetsPlugin = require( 'assets-webpack-plugin' );

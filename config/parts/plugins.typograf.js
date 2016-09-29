@@ -3,11 +3,9 @@ var _ = require( 'lodash' );
 
 module.exports = function ( config, options ) {
 
-  var value = options.get( 'plugins.typograf' );
+  var value = options.get( 'plugins.typograf', false, { lang: 'en', mode: 'name' } );
 
   if ( ! value ) return;
-
-  if ( value == true ) value = { lang: 'en', mode: 'name' };
 
 
   var TypografPlugin = require( '../../plugins/typograf-webpack-plugin' );

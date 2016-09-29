@@ -3,11 +3,9 @@ var _ = require( 'lodash' );
 
 module.exports = function ( config, options ) {
 
-  var value = options.get( 'module.styling' );
+  var value = options.get( 'module.styling', false, 'name=style.styl' );
 
   if ( ! value ) return;
-
-  if ( value == true ) value = 'name=style.styl';
 
 
   _.each( config.module.loaders, function ( loader ) {

@@ -8,11 +8,9 @@ module.exports = function ( config, options ) {
   if ( environment != 'production' ) return;
 
 
-  var value = options.get( 'production.plugins.uglify' );
+  var value = options.get( 'production.plugins.uglify', false, { compress: { warnings: false } } );
 
   if ( ! value ) return;
-
-  if ( value == true ) value = { compress: { warnings: false } };
 
 
   config.plugins.push( new webpack.optimize.UglifyJsPlugin( value ) );

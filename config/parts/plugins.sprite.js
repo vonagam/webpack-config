@@ -5,11 +5,7 @@ var path = require( 'path' );
 
 module.exports = function ( config, options ) {
 
-  var value = options.get( 'plugins.sprite' );
-
-  if ( ! value ) return;
-
-  if ( value == true ) value = {
+  var value = options.get( 'plugins.sprite', false, {
 
     src: {
 
@@ -27,7 +23,9 @@ module.exports = function ( config, options ) {
 
     },
 
-  };
+  } );
+
+  if ( ! value ) return;
 
 
   var SpritesmithPlugin = require( 'webpack-spritesmith' );

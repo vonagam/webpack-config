@@ -8,9 +8,7 @@ module.exports = function ( config, options ) {
   config.output.sourcePrefix = options.get( 'output.sourcePrefix', '' );
 
 
-  var library = options.get( 'output.library', false );
-
-  if ( library == true ) library = '[name]';
+  var library = options.get( 'output.library', false, '[name]' );
 
   if ( library ) {
 
