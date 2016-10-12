@@ -1,22 +1,34 @@
+var Config = require( '../config' );
+
 var _ = require( 'lodash' );
 
 
-module.exports = function ( config, options ) {
+Config.add( [
 
-  require( './plugins.assets' )( config, options );
+  {
 
-  require( './plugins.hot' )( config, options );
+    path: 'plugins',
 
-  require( './plugins.html' )( config, options );
+    add: 'merge',
 
-  require( './plugins.provide' )( config, options );
+    virtual: 'parent',
 
-  require( './plugins.sprite' )( config, options );
+    changeConfig: function ( config ) {
 
-  require( './plugins.styles' )( config, options );
+      var plugins = _.flatten( _.values( _.get( config, 'plugins', {} ) ) );
 
-  require( './plugins.typograf' )( config, options );
+      _.set( config, 'plugins', plugins );
 
-  require( './plugins.uglify' )( config, options );
+    },
 
-};
+  },
+
+  {
+
+    path: 'plugins.other',
+
+    add: 'concat',
+
+  },
+
+] );

@@ -1,17 +1,18 @@
-var _ = require( 'lodash' );
+var Config = require( '../config' );
 
 var path = require( 'path' );
 
 
-module.exports = function ( config, options ) {
+Config.add( [
 
-  var value = options.get( 'entry', {
+  {
 
-    application: [ path.resolve( './sources/index' ) ]
+    path: 'entry',
 
-  } );
+    add: 'merge',
 
+    defaultValue: { application: [ path.resolve( './sources/index' ) ] },
 
-  config.entry = value;
+  },
 
-};
+] );

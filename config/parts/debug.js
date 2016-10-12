@@ -5,9 +5,9 @@ Config.add( [
 
   {
 
-    path: 'devtool',
+    path: 'debug',
 
-    defaultValue: 'source-map',
+    defaultValue: false,
 
   },
 

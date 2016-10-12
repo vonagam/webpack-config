@@ -5,9 +5,9 @@ Config.add( [
 
   {
 
-    path: 'devtool',
+    path: 'externals',
 
-    defaultValue: 'source-map',
+    add: 'concat',
 
   },
 

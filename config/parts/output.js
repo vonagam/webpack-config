@@ -1,23 +1,72 @@
-var _ = require( 'lodash' );
+var Config = require( '../config' );
+
+var path = require( 'path' );
 
 
-module.exports = function ( config, options ) {
+Config.add( [
 
-  config.output = {};
+  {
 
-  config.output.sourcePrefix = options.get( 'output.sourcePrefix', '' );
+    path: 'output',
 
+    virtual: 'parent',
 
-  var library = options.get( 'output.library', false, '[name]' );
+  },
 
-  if ( library ) {
+  {
 
-    config.output.library = library;
+    path: 'output.filename',
 
-    config.output.libraryTarget = options.get( 'output.libraryTarget', 'umd' );
+    defaultValue: '[name].js',
 
-    config.output.umdNamedDefine = options.get( 'output.umdNamedDefine', true );
+  },
 
-  }
+  {
 
-};
+    path: 'output.path',
+
+    defaultValue: path.resolve( './build' ),
+
+  },
+
+  {
+
+    path: 'output.publicPath',
+
+    defaultValue: '',
+
+  },
+
+  {
+
+    path: 'output.library',
+
+    defaultValue: '[name]',
+
+  },
+
+  {
+
+    path: 'output.libraryTarget',
+
+    defaultValue: 'umd',
+
+  },
+
+  {
+
+    path: 'output.umdNamedDefine',
+
+    defaultValue: true,
+
+  },
+
+  {
+
+    path: 'output.sourcePrefix',
+
+    defaultValue: '',
+
+  },
+
+] );

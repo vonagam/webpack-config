@@ -1,15 +1,96 @@
+var Config = require( '../config' );
+
+var path = require( 'path' );
+
 var _ = require( 'lodash' );
 
 
-module.exports = function ( config, options ) {
+Config.add( [
 
-  config.module = {};
+  {
+
+    path: 'module',
+
+    virtual: 'parent',
+
+  },
+
+  {
+
+    path: 'module.loaders',
+
+    add: 'merge',
+
+    virtual: 'parent',
+
+    changeConfig: function ( config ) {
+
+      var loaders = _.flatten( _.values( _.get( config, 'module.loaders', {} ) ) );
+
+      _.set( config, 'module.loaders', loaders );
 
 
-  require( './module.loaders' )( config, options );
+      var extensions = _.get( config, 'resolve.extensions', [ '' ] );
 
-  require( './module.loaders.styling' )( config, options );
+      _.each( _.get( config, 'module.loaders' ), function ( loader ) {
 
-  require( './module.loaders.postcss' )( config, options );
+        if ( loader.resolve ) extensions.push( loader.resolve );
 
-};
+      } );
+
+      _.set( config, 'resolve.extensions', extensions );
+
+
+      var hasPostcss = _.some( _.get( config, 'module.loaders' ), function ( loader ) {
+
+        return _.includes( loader.loaders, 'postcss' );
+
+      } );
+
+      if ( hasPostcss ) {
+
+        var autoprefixer = require( 'autoprefixer' );
+
+        _.set( config, 'postcss', function () { return [ autoprefixer ]; } );
+
+      }
+
+    },
+
+  },
+
+  {
+
+    path: 'module.loaders.other',
+
+    add: 'concat',
+
+  },
+
+  {
+
+    path: 'module.styling',
+
+    trueValue: 'name=style.styl',
+
+    virtual: 'property',
+
+    changeConfig: function ( config, options ) {
+
+      var query = _.get( options, 'module.styling' );
+
+      var neighbor = path.join( __dirname, '../../loaders/neighbor' );
+
+      _.each( _.get( config, 'module.loaders' ), function ( loader ) {
+
+        if ( loader.type != 'script' ) return;
+
+        loader.loaders.push( neighbor + '?' + query );
+
+      } );
+
+    },
+
+  },
+
+] );

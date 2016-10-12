@@ -1,42 +1,69 @@
-var _ = require( 'lodash' );
-
-var path = require( 'path' );
+var Config = require( './config' );
 
 
-var Options = require( './options' );
+require( './parts/environment' );
+
+require( './parts/module' );
+
+require( './parts/plugins' );
 
 
-var createConfig = function ( options ) {
+require( './parts/debug' );
 
-  var options = new Options( options );
+require( './parts/devServer' );
 
-  var config = {};
+require( './parts/devtool' );
 
+require( './parts/entry' );
 
-  config.plugins = [];
+require( './parts/externals' );
 
+require( './parts/output' );
 
-  require( './parts/entry' )( config, options );
-
-  require( './parts/output' )( config, options );
-
-  require( './parts/module' )( config, options );
-
-  require( './parts/resolve' )( config, options );
-
-  require( './parts/devtool' )( config, options );
-
-  require( './parts/environment' )( config, options );
-
-  require( './parts/plugins' )( config, options );
+require( './parts/resolve' );
 
 
-  _.set( config, 'resolveLoader.alias.neighbor', path.join( __dirname, '../loaders/neighbor' ) );
+require( './parts/environments/development' );
+
+require( './parts/environments/production' );
 
 
-  return config;
+require( './parts/loaders/cjsx' );
 
-};
+require( './parts/loaders/css' );
+
+require( './parts/loaders/font' );
+
+require( './parts/loaders/html' );
+
+require( './parts/loaders/img' );
+
+require( './parts/loaders/js' );
+
+require( './parts/loaders/pug' );
+
+require( './parts/loaders/styl' );
 
 
-module.exports = createConfig;
+require( './parts/plugins/assets' );
+
+require( './parts/plugins/define' );
+
+require( './parts/plugins/hot' );
+
+require( './parts/plugins/html' );
+
+require( './parts/plugins/provide' );
+
+require( './parts/plugins/provideLodash' );
+
+require( './parts/plugins/sprite' );
+
+require( './parts/plugins/extractStyles' );
+
+require( './parts/plugins/typograf' );
+
+require( './parts/plugins/uglify' );
+
+
+module.exports = Config;

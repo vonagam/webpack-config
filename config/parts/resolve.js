@@ -1,13 +1,42 @@
-var _ = require( 'lodash' );
+var Config = require( '../config' );
+
+var path = require( 'path' );
 
 
-module.exports = function ( config, options ) {
+Config.add( [
 
-  config.resolve = {};
+  {
 
+    path: 'resolve',
 
-  require( './resolve.root' )( config, options );
+    virtual: 'parent',
 
-  require( './resolve.extensions' )( config, options );
+  },
 
-};
+  {
+
+    path: 'resolve.root',
+
+    defaultValue: path.resolve( './sources' ),
+
+  },
+
+  {
+
+    path: 'resolve.alias',
+
+    add: 'merge',
+
+    defaultValue: { '~': path.resolve( './sources' ) },
+
+  },
+
+  {
+
+    path: 'resolve.extensions',
+
+    add: 'concat',
+
+  },
+
+] );

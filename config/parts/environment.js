@@ -1,12 +1,28 @@
+var Config = require( '../config' );
+
+var webpack = require( 'webpack' );
+
 var _ = require( 'lodash' );
 
 
-module.exports = function ( config, options ) {
+Config.add( [
 
-  var environment = options.get( 'environment' );
+  {
 
-  if ( environment == 'development' ) require( './environment.development' )( config, options );
+    path: 'environment',
 
-  if ( environment == 'production' ) require( './environment.production' )( config, options );
+    virtual: 'property',
 
-};
+  },
+
+  {
+
+    path: 'environments',
+
+    add: 'merge',
+
+    virtual: 'parent',
+
+  },
+
+] );
