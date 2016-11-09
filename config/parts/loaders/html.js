@@ -17,6 +17,8 @@ Config.add( [
 
     },
 
+    add: 'concat',
+
   },
 
 ] );

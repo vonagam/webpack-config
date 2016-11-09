@@ -88,7 +88,7 @@ Property.prototype = _.create( Item.prototype, {
 
   transformFromOptionToConfig: function ( value ) {
 
-    if ( this.spec.transform ) return this.spec.transform( value );
+    if ( this.spec.transform ) return this.spec.transform.call( this, value );
 
     return value;
 
@@ -99,6 +99,8 @@ Property.prototype = _.create( Item.prototype, {
     var value = _.get( options, this.spec.path, this.spec.defaultValue );
 
     if ( value === true && this.spec.trueValue ) value = this.spec.trueValue;
+
+    if ( value !== undefined && this.spec.add === 'concat' ) value = _.castArray( value );
 
     return value;
 

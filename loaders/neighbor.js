@@ -6,8 +6,6 @@ var loaderUtils = require( 'loader-utils' );
 
 var SourceMap = require( 'source-map' );
 
-var Path = require( 'path' );
-
 
 var SourceNode = SourceMap.SourceNode;
 
@@ -20,15 +18,15 @@ module.exports = function ( source, map ) {
 
   var query = loaderUtils.parseQuery( this.query );
 
-  var stylePath = './' + Path.basename( this.resourcePath ).replace( /[^\/]+$/, query.name );
+  var path = loaderUtils.interpolateName( this, query.path, {} );
 
 
-  this.resolve( this.context, stylePath, function ( error, result ) {
+  this.resolve( this.context, path, function ( error, result ) {
 
     if ( error ) return callback( null, source, map );
 
 
-    var prefix = 'require("' + stylePath + '");\n\n';
+    var prefix = 'require("' + path + '");\n\n';
 
 
     if ( ! map ) return callback( null, prefix + source );

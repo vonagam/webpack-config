@@ -34,7 +34,7 @@ Config.add( [
 
       _.each( _.get( config, 'module.loaders' ), function ( loader ) {
 
-        if ( loader.type == 'style' ) loader.loaders.unshift( 'style' );
+        if ( loader.type === 'style' ) loader.loaders.unshift( 'style' );
 
       } );
 

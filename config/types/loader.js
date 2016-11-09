@@ -18,11 +18,21 @@ Loader.prototype = _.create( Property.prototype, {
 
   },
 
+  getAddMethodName: function () {
+
+    return _.camelCase( this.spec.path.replace( /module\.loaders\.(\w+)/, 'add.$1.module.loader' ) );
+
+  },
+
   transformFromOptionToConfig: function ( value ) {
 
     value = Property.prototype.transformFromOptionToConfig.call( this, value );
 
-    value = _.assign( {}, this.spec.loader, value );
+    value = _.map( value, _.bind( function ( value ) {
+
+      return _.assign( {}, this.spec.loader, value );
+
+    }, this ) );
 
     return value;
 

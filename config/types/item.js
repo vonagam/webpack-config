@@ -16,7 +16,7 @@ Item.prototype = _.create( Object.prototype, {
 
   isIncluded: function ( options ) {
 
-    if ( this.spec.isIncluded ) return this.spec.isIncluded( options );
+    if ( this.spec.isIncluded ) return this.spec.isIncluded.call( this, options );
 
     return true;
 
@@ -24,13 +24,13 @@ Item.prototype = _.create( Object.prototype, {
 
   transferOptionsToConfig: function ( options, config ) {
 
-    if ( this.spec.transfer ) this.spec.transfer( options, config );
+    if ( this.spec.transfer ) this.spec.transfer.call( this, options, config );
 
   },
 
   changeConfig: function ( config, options ) {
 
-    if ( this.spec.changeConfig ) this.spec.changeConfig( config, options );
+    if ( this.spec.changeConfig ) this.spec.changeConfig.call( this, config, options );
 
   },
 

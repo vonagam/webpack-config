@@ -27,7 +27,7 @@ Config.add( [
 
         if ( ! loader.hot ) return;
 
-        loader.loaders.unshift( 'react-hot-loader/webpack' );
+        loader.loaders.unshift( 'react-hot' );
 
       } );
 

@@ -22,6 +22,8 @@ require( './parts/output' );
 
 require( './parts/resolve' );
 
+require( './parts/target' );
+
 
 require( './parts/environments/development' );
 
@@ -43,6 +45,8 @@ require( './parts/loaders/js' );
 require( './parts/loaders/pug' );
 
 require( './parts/loaders/styl' );
+
+require( './parts/loaders/styling' );
 
 
 require( './parts/plugins/assets' );

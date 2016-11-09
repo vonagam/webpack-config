@@ -67,30 +67,4 @@ Config.add( [
 
   },
 
-  {
-
-    path: 'module.styling',
-
-    trueValue: 'name=style.styl',
-
-    virtual: 'property',
-
-    changeConfig: function ( config, options ) {
-
-      var query = _.get( options, 'module.styling' );
-
-      var neighbor = path.join( __dirname, '../../loaders/neighbor' );
-
-      _.each( _.get( config, 'module.loaders' ), function ( loader ) {
-
-        if ( loader.type != 'script' ) return;
-
-        loader.loaders.push( neighbor + '?' + query );
-
-      } );
-
-    },
-
-  },
-
 ] );

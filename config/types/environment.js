@@ -32,7 +32,7 @@ Environment.prototype = _.create( Property.prototype, {
 
       if ( ! item.spec.path ) return;
 
-      if ( item.virtual === 'parent' ) return;
+      if ( item.spec.virtual === 'parent' ) return;
 
       if ( ! _.has( values, item.spec.path ) ) return;
 

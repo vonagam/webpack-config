@@ -19,6 +19,8 @@ Config.add( [
 
     },
 
+    add: 'concat',
+
     defaultValue: true,
 
   },
