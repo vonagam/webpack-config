@@ -5,18 +5,58 @@ var Item = function ( spec ) {
 
   this.spec = _.clone( spec );
 
+  this.state = {};
+
+  if ( this.spec.extends ) this.spec.extends( this );
+
 };
 
 
 Item.prototype = _.create( Object.prototype, {
 
-  hasSetMethod: _.constant( false ),
+  hasSetMethod: function () {
 
-  hasAddMethod: _.constant( false ),
+    return Boolean( this.getSetMethodName() );
+
+  },
+
+  hasAddMethod: function () {
+
+    return Boolean( this.getAddMethodName() );
+
+  },
+
+  getSetMethodName: function () {
+
+    return undefined;
+
+  },
+
+  getAddMethodName: function () {
+
+    return undefined;
+
+  },
+
+  set: function ( options, value ) {
+
+  },
+
+  add: function ( options, value ) {
+
+  },
+
+  resetState: function () {
+
+    this.state = {};
+
+  },
+
+  mergeOptions: function ( oldOptions, newOptions, method ) {
+
+  },
 
   isIncluded: function ( options ) {
-
-    if ( this.spec.isIncluded ) return this.spec.isIncluded.call( this, options );
 
     return true;
 
@@ -24,13 +64,9 @@ Item.prototype = _.create( Object.prototype, {
 
   transferOptionsToConfig: function ( options, config ) {
 
-    if ( this.spec.transfer ) this.spec.transfer.call( this, options, config );
-
   },
 
-  changeConfig: function ( config, options ) {
-
-    if ( this.spec.changeConfig ) this.spec.changeConfig.call( this, config, options );
+  modifyConfig: function ( config, options ) {
 
   },
 

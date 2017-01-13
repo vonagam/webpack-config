@@ -1,24 +1,20 @@
 var Config = require( '../../config' );
 
+var Loader = require( '../../types/loader' );
 
-Config.add( [
 
-  {
+Config.add( new Loader( {
 
-    path: 'module.loaders.html',
+  path: 'module.loaders.html',
 
-    loader: {
+  loader: {
 
-      test: /\.html$/,
+    test: /\.html$/,
 
-      loaders: [ 'html' ],
+    loaders: [ 'html' ],
 
-      type: 'page',
-
-    },
-
-    add: 'concat',
+    type: 'page',
 
   },
 
-] );
+} ) );

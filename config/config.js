@@ -1,37 +1,13 @@
 var _ = require( 'lodash' );
 
-var Property = require( './types/property' );
 
-var Loader = require( './types/loader' );
+var ITEMS = [];
 
-var Plugin = require( './types/plugin' );
-
-var Environment = require( './types/environment' );
-
-
-var Config = function ( options ) {
-
-  this.set( options || {} );
-
-
-  _.each( Config.environments, _.bind( function ( environment ) {
-
-    _.set( this.options, environment.spec.path, {} );
-
-  }, this ) );
-
-};
-
-
-Config.items = [];
-
-Config.environments = [];
-
-var createPropertyMethod = function ( item, method ) {
+var createItemMethod = function ( item, method ) {
 
   return function () {
 
-    var options = this.options;
+    var options;
 
     var value;
 
@@ -39,11 +15,23 @@ var createPropertyMethod = function ( item, method ) {
 
       var environment = arguments[ 0 ];
 
-      options = _.get( options, 'environments.' + environment );
+      var path = 'environments.' + environment;
+
+      options = _.get( this.options, path );
 
       value = arguments[ 1 ];
 
+      if ( ! options ) {
+
+        options = {};
+
+        _.set( this.options, path, options );
+
+      }
+
     } else {
+
+      options = this.options;
 
       value = arguments[ 0 ];
 
@@ -55,87 +43,120 @@ var createPropertyMethod = function ( item, method ) {
 
 };
 
-Config.add = function ( specs ) {
+var mergeOptions = function ( oldOptions, newOptions, method ) {
 
-  _.each( specs, function ( spec ) {
+  _.each( ITEMS, function ( item ) {
 
-    var item;
-
-    if ( ! item && spec.loader ) {
-
-      item = new Loader( spec );
-
-    }
-
-    if ( ! item && spec.plugin ) {
-
-      item = new Plugin( spec );
-
-    }
-
-    if ( ! item && spec.environment ) {
-
-      item = new Environment( spec );
-
-      Config.environments.push( item );
-
-    }
-
-    if ( ! item ) {
-
-      item = new Property( spec );
-
-    }
-
-    if ( item.hasSetMethod() ) {
-
-      Config.prototype[ item.getSetMethodName() ] = createPropertyMethod( item, 'set' );
-
-    }
-
-    if ( item.hasAddMethod() ) {
-
-      Config.prototype[ item.getAddMethodName() ] = createPropertyMethod( item, 'add' );
-
-    }
-
-    Config.items.push( item );
+    item.mergeOptions( oldOptions, newOptions, method );
 
   } );
 
 };
 
 
+var Config = function ( options ) {
+
+  this.replace( options || {} );
+
+};
+
+
+_.assign( Config, {
+
+  add: function ( items ) {
+
+    _.each( _.castArray( items ), function ( item ) {
+
+      ITEMS.push( item );
+
+      if ( item.getSetMethodName() ) {
+
+        Config.prototype[ item.getSetMethodName() ] = createItemMethod( item, 'set' );
+
+      }
+
+      if ( item.getAddMethodName() ) {
+
+        Config.prototype[ item.getAddMethodName() ] = createItemMethod( item, 'add' );
+
+      }
+
+    } );
+
+  }
+
+} );
+
+
 _.assign( Config.prototype, {
 
-  set: function ( options ) {
+  set: function ( newOptions ) {
 
-    this.options = _.cloneDeep( options );
+    mergeOptions( this.options, newOptions, 'set' );
+
+  },
+
+  add: function ( newOptions ) {
+
+    mergeOptions( this.options, newOptions, 'add' );
+
+  },
+
+  replace: function ( newOptions ) {
+
+    this.options = {};
+
+    this.set( newOptions );
+
+  },
+
+  clone: function () {
+
+    return new Config( this.options );
 
   },
 
   get: function () {
+
+    var items = ITEMS;
 
     var options = _.cloneDeep( this.options );
 
     var config = {};
 
 
-    _.each( Config.environments, function ( environment ) {
+    // 1. Reset items
 
-      if ( ! environment.isIncluded( options ) ) return;
+    _.each( items, function ( item ) {
 
-      environment.mergeEnvironmentOptions( options, Config.items );
+      item.resetState();
 
     } );
 
 
-    var items = _.filter( Config.items, function ( item ) {
+    // 2. Merge environments options into resulted options
+
+    var environments = _.castArray( _.get( options, 'environment', [] ) );
+
+    _.each( environments, function ( environment ) {
+
+      var environmentOptions = _.get( options, 'environments.' + environment );
+
+      if ( environmentOptions ) mergeOptions( options, environmentOptions, 'add' );
+
+    } );
+
+
+    // 3. Filter items for included ones
+
+    items = _.filter( items, function ( item ) {
 
       return item.isIncluded( options );
 
     } );
 
+
+    // 4. Transfer options to config
 
     _.each( items, function ( item ) {
 
@@ -144,9 +165,11 @@ _.assign( Config.prototype, {
     } );
 
 
+    // 5. Post modify config
+
     _.each( items, function ( item ) {
 
-      item.changeConfig( config, options );
+      item.modifyConfig( config, options );
 
     } );
 

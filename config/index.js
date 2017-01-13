@@ -1,28 +1,25 @@
-var Config = require( './config' );
+require( './parts/properties/environment' );
+
+require( './parts/properties/module' );
+
+require( './parts/properties/plugins' );
 
 
-require( './parts/environment' );
+require( './parts/properties/debug' );
 
-require( './parts/module' );
+require( './parts/properties/devServer' );
 
-require( './parts/plugins' );
+require( './parts/properties/devtool' );
 
+require( './parts/properties/entry' );
 
-require( './parts/debug' );
+require( './parts/properties/externals' );
 
-require( './parts/devServer' );
+require( './parts/properties/output' );
 
-require( './parts/devtool' );
+require( './parts/properties/resolve' );
 
-require( './parts/entry' );
-
-require( './parts/externals' );
-
-require( './parts/output' );
-
-require( './parts/resolve' );
-
-require( './parts/target' );
+require( './parts/properties/target' );
 
 
 require( './parts/environments/development' );
@@ -70,4 +67,7 @@ require( './parts/plugins/typograf' );
 require( './parts/plugins/uglify' );
 
 
-module.exports = Config;
+require( './parts/items/postcss' );
+
+
+module.exports = require( './config' );

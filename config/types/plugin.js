@@ -5,6 +5,12 @@ var Property = require( './property' );
 
 var Plugin = function ( spec ) {
 
+  spec = _.defaults( {}, spec, {
+
+    add: 'concat',
+
+  } );
+
   Property.call( this, spec );
 
 };
@@ -24,9 +30,9 @@ Plugin.prototype = _.create( Property.prototype, {
 
   },
 
-  transformFromOptionToConfig: function ( value ) {
+  getConfigValue: function ( options ) {
 
-    value = Property.prototype.transformFromOptionToConfig.call( this, value );
+    var value = Property.prototype.getConfigValue.call( this, options );
 
     if ( this.spec.add === 'concat' ) {
 

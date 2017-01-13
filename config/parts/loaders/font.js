@@ -1,26 +1,22 @@
 var Config = require( '../../config' );
 
+var Loader = require( '../../types/loader' );
 
-Config.add( [
 
-  {
+Config.add( new Loader( {
 
-    path: 'module.loaders.font',
+  path: 'module.loaders.font',
 
-    loader: {
+  loader: {
 
-      test: /\.(eot|svg|ttf|otf|woff)/,
+    test: /\.(eot|svg|ttf|otf|woff)/,
 
-      loaders: [ 'file?name=fonts/[name].[ext]' ],
+    loaders: [ 'file?name=fonts/[name].[ext]' ],
 
-      include: /fonts/,
+    include: /fonts/,
 
-      type: 'font',
-
-    },
-
-    add: 'concat',
+    type: 'font',
 
   },
 
-] );
+} ) );

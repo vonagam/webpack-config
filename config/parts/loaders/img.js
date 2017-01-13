@@ -1,26 +1,22 @@
 var Config = require( '../../config' );
 
+var Loader = require( '../../types/loader' );
 
-Config.add( [
 
-  {
+Config.add( new Loader( {
 
-    path: 'module.loaders.img',
+  path: 'module.loaders.img',
 
-    loader: {
+  loader: {
 
-      test: /\.(png|jpg|svg)$/,
+    test: /\.(png|jpg|svg)$/,
 
-      loaders: [ 'url?limit=3000&name=images/[name]-[hash].[ext]', 'image-webpack' ],
+    loaders: [ 'url?limit=3000&name=images/[name]-[hash].[ext]', 'image-webpack' ],
 
-      exclude: /fonts/,
+    exclude: /fonts/,
 
-      type: 'image',
-
-    },
-
-    add: 'concat',
+    type: 'image',
 
   },
 
-] );
+} ) );

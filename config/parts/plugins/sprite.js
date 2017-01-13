@@ -1,36 +1,34 @@
 var Config = require( '../../config' );
 
+var Plugin = require( '../../types/plugin' );
+
 var path = require( 'path' );
 
 
-Config.add( [
+Config.add( new Plugin( {
 
-  {
+  path: 'plugins.sprite',
 
-    path: 'plugins.sprite',
+  plugin: 'webpack-spritesmith',
 
-    plugin: 'webpack-spritesmith',
+  trueValue: {
 
-    trueValue: {
+    src: {
 
-      src: {
+      cwd: path.resolve( './sources/sprite' ),
 
-        cwd: path.resolve( './sources/sprite' ),
+      glob: '*.(png|jpg|jpeg)',
 
-        glob: '*.(png|jpg|jpeg)',
+    },
 
-      },
+    target: {
 
-      target: {
+      image: path.resolve( './sources/sprite/build/sprite.png' ),
 
-        image: path.resolve( './sources/sprite/build/sprite.png' ),
-
-        css: path.resolve( './sources/sprite/build/sprite.styl' ),
-
-      },
+      css: path.resolve( './sources/sprite/build/sprite.styl' ),
 
     },
 
   },
 
-] );
+} ) );

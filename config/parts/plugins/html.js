@@ -1,16 +1,12 @@
 var Config = require( '../../config' );
 
+var Plugin = require( '../../types/plugin' );
 
-Config.add( [
 
-  {
+Config.add( new Plugin( {
 
-    path: 'plugins.html',
+  path: 'plugins.html',
 
-    plugin: 'html-webpack-plugin',
+  plugin: 'html-webpack-plugin',
 
-    add: 'concat',
-
-  },
-
-] );
+} ) );

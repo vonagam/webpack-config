@@ -5,6 +5,12 @@ var Property = require( './property' );
 
 var Loader = function ( spec ) {
 
+  spec = _.assign( {}, spec, {
+
+    add: 'concat',
+
+  } );
+
   Property.call( this, spec );
 
 };
@@ -24,15 +30,15 @@ Loader.prototype = _.create( Property.prototype, {
 
   },
 
-  transformFromOptionToConfig: function ( value ) {
+  getConfigValue: function ( options ) {
 
-    value = Property.prototype.transformFromOptionToConfig.call( this, value );
+    var value = Property.prototype.getConfigValue.call( this, options );
 
     value = _.map( value, _.bind( function ( value ) {
 
       return _.assign( {}, this.spec.loader, value );
 
-    }, this ) );
+    }, this ) )
 
     return value;
 

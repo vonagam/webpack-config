@@ -1,24 +1,22 @@
 var Config = require( '../../config' );
 
+var Plugin = require( '../../types/plugin' );
+
 var path = require( 'path' );
 
 
-Config.add( [
+Config.add( new Plugin( {
 
-  {
+  path: 'plugins.assets',
 
-    path: 'plugins.assets',
+  plugin: 'assets-webpack-plugin',
 
-    plugin: 'assets-webpack-plugin',
+  trueValue: {
 
-    trueValue: {
+    filename: 'manifest.json',
 
-      filename: 'manifest.json',
-
-      path: path.resolve( './build' ),
-
-    },
+    path: path.resolve( './build' ),
 
   },
 
-] );
+} ) );

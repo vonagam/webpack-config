@@ -1,28 +1,24 @@
 var Config = require( '../../config' );
 
+var Loader = require( '../../types/loader' );
 
-Config.add( [
 
-  {
+Config.add( new Loader( {
 
-    path: 'module.loaders.cjsx',
+  path: 'module.loaders.cjsx',
 
-    loader: {
+  loader: {
 
-      test: /\.cjsx$/,
+    test: /\.cjsx$/,
 
-      loaders: [ 'coffee-react-void' ],
+    loaders: [ 'coffee-react-void' ],
 
-      type: 'script',
+    type: 'script',
 
-      resolve: '.cjsx',
+    resolve: '.cjsx',
 
-      hot: true,
-
-    },
-
-    add: 'concat',
+    hot: true,
 
   },
 
-] );
+} ) );

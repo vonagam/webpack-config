@@ -1,28 +1,24 @@
 var Config = require( '../../config' );
 
+var Loader = require( '../../types/loader' );
+
 var path = require( 'path' );
 
 var neighbor = path.join( __dirname, '../../../loaders/neighbor' );
 
 
-Config.add( [
+Config.add( new Loader( {
 
-  {
+  path: 'module.loaders.styling',
 
-    path: 'module.loaders.styling',
+  loader: {
 
-    loader: {
+    test: /\.(js|cjsx)$/,
 
-      test: /\.(js|cjsx)$/,
+    loaders: [ neighbor + '?path=./[name].styl' ],
 
-      loaders: [ neighbor + '?path=./[name].styl' ],
-
-      include: path.resolve( './sources' ),
-
-    },
-
-    add: 'concat',
+    include: path.resolve( './sources' ),
 
   },
 
-] );
+} ) );

@@ -12,9 +12,9 @@ var Property = function ( spec ) {
 
 Property.prototype = _.create( Item.prototype, {
 
-  hasSetMethod: function () {
+  hasAddMethod: function () {
 
-    return true;
+    return Boolean( this.spec.add );
 
   },
 
@@ -24,45 +24,37 @@ Property.prototype = _.create( Item.prototype, {
 
   },
 
-  set: function ( options, value ) {
-
-    if ( this.spec.add === 'concat' ) {
-
-      if ( ! _.isArray( value ) ) value = [ value ];
-
-    }
-
-    _.set( options, this.spec.path, value );
-
-  },
-
-  hasAddMethod: function () {
-
-    return Boolean( this.spec.add );
-
-  },
-
   getAddMethodName: function () {
 
     return _.camelCase( 'add.' + this.spec.path );
 
   },
 
+  set: function ( options, value ) {
+
+    _.set( options, this.spec.path, value );
+
+  },
+
   add: function ( options, value ) {
 
-    if ( this.spec.add === 'merge' ) {
+    var type = this.spec.add;
+
+    var nextValue;
+
+    if ( type === 'merge' ) {
 
       var prevValue = this.getOptionValue( options ) || {};
 
-      var nextValue = _.assign( {}, prevValue, value );
+      nextValue = _.assign( {}, prevValue, value );
 
     }
 
-    if ( this.spec.add === 'concat' ) {
+    if ( type === 'concat' ) {
 
       var prevValue = this.getOptionValue( options ) || [];
 
-      var nextValue = _.concat( [], prevValue, value );
+      nextValue = _.concat( [], prevValue, value );
 
     }
 
@@ -70,27 +62,19 @@ Property.prototype = _.create( Item.prototype, {
 
   },
 
-  isIncluded: function ( options ) {
+  mergeOptions: function ( oldOptions, newOptions, method ) {
 
-    return this.getOptionValue( options ) !== undefined;
+    if ( this.spec.virtual === 'parent' ) return;
 
-  },
+    if ( ! this.spec.path ) return;
 
-  transferOptionsToConfig: function ( options, config ) {
+    if ( ! _.has( newOptions, this.spec.path ) ) return;
 
-    if ( this.spec.virtual ) return;
+    method = method === 'add' && this.hasAddMethod() ? 'add' : 'set';
 
-    var value = this.getConfigValue( options );
+    var newValue = this.getOptionValue( newOptions );
 
-    _.set( config, this.spec.path, value );
-
-  },
-
-  transformFromOptionToConfig: function ( value ) {
-
-    if ( this.spec.transform ) return this.spec.transform.call( this, value );
-
-    return value;
+    this[ method ]( oldOptions, newValue );
 
   },
 
@@ -106,13 +90,33 @@ Property.prototype = _.create( Item.prototype, {
 
   },
 
+  isIncluded: function ( options ) {
+
+    return this.getOptionValue( options ) !== undefined;
+
+  },
+
+  transferOptionsToConfig: function ( options, config ) {
+
+    if ( this.spec.virtual ) return;
+
+    var value = this.getConfigValue( options );
+
+    this.state.value = value;
+
+    _.set( config, this.spec.path, value );
+
+  },
+
   getConfigValue: function ( options ) {
 
-    var optionValue = this.getOptionValue( options );
+    return this.getOptionValue( options );
 
-    var configValue = this.transformFromOptionToConfig( optionValue );
+  },
 
-    return configValue;
+  modifyConfig: function ( config, options ) {
+
+    if ( this.spec.modifyConfig ) this.spec.modifyConfig.call( this, config, options );
 
   },
 

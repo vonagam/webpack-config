@@ -5,6 +5,16 @@ var Property = require( './property' );
 
 var Environment = function ( spec ) {
 
+  spec = _.assign( {}, spec, {
+
+    path: 'environments.' + spec.environment,
+
+    add: 'merge',
+
+    virtual: 'option',
+
+  } );
+
   Property.call( this, spec );
 
 };
@@ -20,35 +30,11 @@ Environment.prototype = _.create( Property.prototype, {
 
   isIncluded: function ( options ) {
 
-    return _.get( options, 'environment' ) === this.spec.environment;
+    var environments = _.castArray( _.get( options, 'environment', [] ) );
 
-  },
+    var environment = this.spec.environment;
 
-  mergeEnvironmentOptions: function ( options, items ) {
-
-    var values = this.getOptionValue( options );
-
-    _.each( items, function ( item ) {
-
-      if ( ! item.spec.path ) return;
-
-      if ( item.spec.virtual === 'parent' ) return;
-
-      if ( ! _.has( values, item.spec.path ) ) return;
-
-      var value = _.get( values, item.spec.path );
-
-      if ( item.hasAddMethod() ) {
-
-        item.add( options, value );
-
-      } else {
-
-        item.set( options, value );
-
-      }
-
-    } );
+    return _.includes( environments, environment );
 
   },
 

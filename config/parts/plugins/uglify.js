@@ -1,18 +1,16 @@
 var Config = require( '../../config' );
 
+var Plugin = require( '../../types/plugin' );
+
 var webpack = require( 'webpack' );
 
 
-Config.add( [
+Config.add( new Plugin( {
 
-  {
+  path: 'plugins.uglify',
 
-    path: 'plugins.uglify',
+  plugin: webpack.optimize.UglifyJsPlugin,
 
-    plugin: webpack.optimize.UglifyJsPlugin,
+  trueValue: { compress: { warnings: false } },
 
-    trueValue: { compress: { warnings: false } },
-
-  },
-
-] );
+} ) );

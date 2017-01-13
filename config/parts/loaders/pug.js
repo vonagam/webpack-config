@@ -1,24 +1,20 @@
 var Config = require( '../../config' );
 
+var Loader = require( '../../types/loader' );
 
-Config.add( [
 
-  {
+Config.add( new Loader( {
 
-    path: 'module.loaders.pug',
+  path: 'module.loaders.pug',
 
-    loader: {
+  loader: {
 
-      test: /\.pug$/,
+    test: /\.pug$/,
 
-      loaders: [ 'pug' ],
+    loaders: [ 'pug' ],
 
-      type: 'page',
-
-    },
-
-    add: 'concat',
+    type: 'page',
 
   },
 
-] );
+} ) );

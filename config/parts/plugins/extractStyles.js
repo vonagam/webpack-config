@@ -1,40 +1,58 @@
 var Config = require( '../../config' );
 
+var Plugin = require( '../../types/plugin' );
+
 var _ = require( 'lodash' );
 
 
-Config.add( [
+Config.add( new Plugin( {
 
-  {
+  path: 'plugins.extractStyles',
 
-    path: 'plugins.extractStyles',
+  plugin: 'extract-text-webpack-plugin',
 
-    plugin: 'extract-text-webpack-plugin',
+  trueValue: '[name].css',
 
-    trueValue: '[name].css',
+  modifyConfig: function ( config, options ) {
 
-    changeConfig: function ( config ) {
+    var inputs = this.getOptionValue( options );
 
-      var Plugin = require( 'extract-text-webpack-plugin' );
+    var plugins = this.state.value;
 
-      var plugin = _.find( _.get( config, 'plugins' ), function ( plugin ) {
+    var loaders = _.get( config, 'module.loaders' );
 
-        return plugin instanceof Plugin;
+    _.each( plugins, function ( plugin, index ) {
 
-      } );
+      var input = inputs[ index ];
 
-      _.each( _.get( config, 'module.loaders' ), function ( loader ) {
+      var filter = _.get( input, 'filter', _.matches( { type: 'style' } ) );
 
-        if ( loader.type !== 'style' ) return;
+      _.each( _.filter( loaders, filter ), function ( loader ) {
 
-        loader.loader = plugin.extract( loader.loaders );
+        loader.loader = plugin.extract( loader.loader || loader.loaders );
 
         delete loader.loaders;
 
       } );
 
-    },
+    } );
 
   },
 
-] );
+  extends: function ( that ) {
+
+    _.update( that, 'createPlugin', function ( createPlugin ) {
+
+      return function ( value ) {
+
+        value = _.get( value, 'filename', value );
+
+        return createPlugin.call( this, value );
+
+      };
+
+    } );
+
+  },
+
+} ) );

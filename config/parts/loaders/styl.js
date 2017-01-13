@@ -1,24 +1,20 @@
 var Config = require( '../../config' );
 
+var Loader = require( '../../types/loader' );
 
-Config.add( [
 
-  {
+Config.add( new Loader( {
 
-    path: 'module.loaders.styl',
+  path: 'module.loaders.styl',
 
-    loader: {
+  loader: {
 
-      test: /\.styl$/,
+    test: /\.styl$/,
 
-      loaders: [ 'css', 'postcss', 'stylus' ],
+    loaders: [ 'css', 'postcss', 'stylus' ],
 
-      type: 'style',
-
-    },
-
-    add: 'concat',
+    type: 'style',
 
   },
 
-] );
+} ) );
