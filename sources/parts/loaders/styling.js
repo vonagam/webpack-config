@@ -4,8 +4,6 @@ var Loader = require( '../../types/loader' );
 
 var path = require( 'path' );
 
-var neighbor = path.join( __dirname, '../../../loaders/neighbor' );
-
 
 Config.add( new Loader( {
 
@@ -15,7 +13,7 @@ Config.add( new Loader( {
 
     test: /\.(js|cjsx)$/,
 
-    loaders: [ neighbor + '?path=./[name].styl' ],
+    loaders: [ 'neighbor?path=./[name].styl' ],
 
     include: path.resolve( './sources' ),
 

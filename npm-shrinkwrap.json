@@ -3961,6 +3961,12 @@
       "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.6.1.tgz",
       "dev": true
     },
+    "neighbor-loader": {
+      "version": "0.0.2",
+      "from": "neighbor-loader@latest",
+      "resolved": "https://registry.npmjs.org/neighbor-loader/-/neighbor-loader-0.0.2.tgz",
+      "dev": true
+    },
     "no-case": {
       "version": "2.3.0",
       "from": "no-case@>=2.2.0 <3.0.0",
@@ -5389,12 +5395,6 @@
       "resolved": "https://registry.npmjs.org/stream-shift/-/stream-shift-1.0.0.tgz",
       "dev": true
     },
-    "strict-loader": {
-      "version": "1.1.0",
-      "from": "strict-loader@>=1.1.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/strict-loader/-/strict-loader-1.1.0.tgz",
-      "dev": true
-    },
     "strict-uri-encode": {
       "version": "1.1.0",
       "from": "strict-uri-encode@>=1.0.0 <2.0.0",
@@ -5692,11 +5692,19 @@
       "resolved": "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz",
       "dev": true
     },
-    "typograf": {
-      "version": "5.4.3",
-      "from": "typograf@>=5.4.3 <6.0.0",
-      "resolved": "https://registry.npmjs.org/typograf/-/typograf-5.4.3.tgz",
-      "dev": true
+    "typograf-html-webpack-plugin": {
+      "version": "0.0.1",
+      "from": "typograf-html-webpack-plugin@latest",
+      "resolved": "https://registry.npmjs.org/typograf-html-webpack-plugin/-/typograf-html-webpack-plugin-0.0.1.tgz",
+      "dev": true,
+      "dependencies": {
+        "typograf": {
+          "version": "5.8.0",
+          "from": "typograf@>=5.8.0 <6.0.0",
+          "resolved": "https://registry.npmjs.org/typograf/-/typograf-5.8.0.tgz",
+          "dev": true
+        }
+      }
     },
     "uglify-js": {
       "version": "2.7.3",

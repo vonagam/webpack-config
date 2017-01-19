@@ -7,7 +7,7 @@ Config.add( new Plugin( {
 
   path: 'plugins.typograf',
 
-  plugin: '../../plugins/typograf-webpack-plugin',
+  plugin: 'typograf-html-webpack-plugin',
 
   trueValue: { lang: 'en', mode: 'name' },
 
