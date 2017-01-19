@@ -2,13 +2,13 @@
   "name": "@vonagam/webpack-config",
   "description": "Helper for webpack config creation",
   "version": "0.0.3",
-  "license": "MIT",
-  "main": "sources/index.js",
-  "author": "Dmitry Maganov <vonagam@gmail.com>",
   "repository": "vonagam/webpack-config",
+  "author": "Dmitry Maganov <vonagam@gmail.com>",
+  "license": "MIT",
   "keywords": [
     "webpack"
   ],
+  "main": "sources/index.js",
   "dependencies": {
     "lodash": "^4.16.2"
   },
