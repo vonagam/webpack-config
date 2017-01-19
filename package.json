@@ -1,11 +1,11 @@
 {
   "name": "@vonagam/webpack-config",
   "description": "Helper for webpack config creation",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "license": "MIT",
-  "main": "config/index.js",
+  "main": "sources/index.js",
   "author": "Dmitry Maganov <vonagam@gmail.com>",
-  "repository": "vonagam/webpack-config.git",
+  "repository": "vonagam/webpack-config",
   "keywords": [
     "webpack"
   ],
