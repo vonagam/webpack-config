@@ -13,9 +13,14 @@ Config.add( new Plugin( {
 
   plugin: webpack.HotModuleReplacementPlugin,
 
+  add: 'merge',
+
   trueValue: {},
 
-  modifyConfig: function ( config ) {
+  modifyConfig: function ( config, options ) {
+
+    var value = this.getOptionValue( options );
+
 
     _.each( _.get( config, 'entry' ), function ( entry ) {
 
@@ -23,15 +28,20 @@ Config.add( new Plugin( {
 
     } );
 
-    _.each( _.get( config, 'module.loaders' ), function ( loader ) {
-
-      if ( ! loader.hot ) return;
-
-      loader.loaders.unshift( 'react-hot' );
-
-    } );
-
     _.set( config, 'devServer.hot', true );
+
+
+    if ( value.react !== false ) {
+
+      _.each( _.get( config, 'module.loaders' ), function ( loader ) {
+
+        if ( ! loader.hot ) return;
+
+        loader.loaders.unshift( 'react-hot' );
+
+      } );
+
+    }
 
   },
 
