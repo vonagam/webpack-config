@@ -20,14 +20,19 @@ Config.add( new Environment( {
     var path = _.get( config, 'output.publicPath' );
 
 
+    var urlBase = 'http://' + host + ':' + port;
+
+    var urlPath = path + ( /\/$/.test( path ) ? '' : '/' );
+
+
     _.each( _.get( config, 'entry' ), function ( entry ) {
 
-      entry.unshift( 'webpack-dev-server/client?http://' + host + ':' + port );
+      entry.unshift( 'webpack-dev-server/client?' + urlBase );
 
     } );
 
 
-    _.set( config, 'output.publicPath', 'http://' + host + ':' + port + path );
+    _.set( config, 'output.publicPath', urlBase + urlPath );
 
 
     _.each( _.get( config, 'module.loaders' ), function ( loader ) {
