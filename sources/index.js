@@ -46,6 +46,9 @@ require( './parts/loaders/styl' );
 require( './parts/loaders/styling' );
 
 
+require( './parts/items/postcss' );
+
+
 require( './parts/plugins/assets' );
 
 require( './parts/plugins/define' );
@@ -65,9 +68,6 @@ require( './parts/plugins/extractStyles' );
 require( './parts/plugins/typograf' );
 
 require( './parts/plugins/uglify' );
-
-
-require( './parts/items/postcss' );
 
 
 module.exports = require( './config' );
